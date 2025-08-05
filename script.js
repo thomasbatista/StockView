@@ -60,13 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
             data: {
                 labels: labels,
                 datasets: [{
-                    label: `Preço de Fechamento de ${symbol}`,
+                    label: `Preço de ${symbol}`,
                     data: data,
                     borderColor: '#3949ab',
                     backgroundColor: 'rgba(57, 73, 171, 0.1)',
                     borderWidth: 2,
                     pointRadius: 2,
-                    pointBackgroundColor: '#3949ab',
+                    pointBackgroundColor: '#5d68b2ff',
                     fill: true
                 }]
             },
