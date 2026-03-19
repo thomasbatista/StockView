@@ -1,37 +1,44 @@
 # StockView
-
-Um visualizador para consultar o histórico de ações.
+Um visualizador para consultar o histórico de ações brasileiras.
 
 ## ✨ Funcionalidades
-
-- Busca de ações americanas por símbolo (ex: AAPL, GOOGL) com api da AlphaVantage
+- Busca de ações brasileiras por símbolo (ex: PETR4, IVVB11, VALE3)
 - Gráfico interativo de preços com Chart.js
 
 ## 🚀 Como usar
 
 1. **Clone este repositório:**
-   ```sh
+```sh
    git clone https://github.com/seu-usuario/StockView.git
-   ```
-2. **Abra a pasta do projeto:**
-   ```sh
-   cd StockView
-   ```
-3. **Abra o arquivo `index.html` no seu navegador.**
+```
+
+2. **Instale as dependências:**
+```sh
+   npm install
+```
+
+3. **Crie o arquivo `.env` na raiz do projeto:**
+```sh
+   VITE_BRAPI_TOKEN=seu_token_aqui
+```
+   Obtenha seu token em [brapi.dev/dashboard](https://brapi.dev/dashboard)
+
+4. **Inicie o servidor de desenvolvimento:**
+```sh
+   npm run dev
+```
 
 ## 🛠️ Tecnologias
-
 - HTML5
 - CSS3
 - JavaScript
+- [Vite](https://vitejs.dev/)
 - [Chart.js](https://www.chartjs.org/)
-- [Alpha Vantage API](https://www.alphavantage.co/)
+- [brapi](https://brapi.dev/)
 
 ## 📢 Observações
-
-- A API da AlphaVantage tem uma limitação de 25 requisições por dia na versão gratuita.
+- A API da brapi tem um limite de 15.000 requisições/mês no plano gratuito.
 
 ## 📚 Créditos
-
-- Dados fornecidos por [Alpha Vantage](https://www.alphavantage.co/)
+- Dados fornecidos por [brapi](https://brapi.dev/)
 - Gráficos por [Chart.js](https://www.chartjs.org/)

@@ -1,11 +1,10 @@
-const apiKey = 'RCSKM0URHG6LGKM4'; 
+const apiKey = import.meta.env.VITE_BRAPI_TOKEN;
 
 document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const stockSymbolInput = document.getElementById('stockSymbol');
-    let stockChart; 
+    let stockChart;
 
-    // Função para buscar e exibir os dados
     const fetchData = async () => {
         const stockSymbol = stockSymbolInput.value.trim().toUpperCase();
 
@@ -14,31 +13,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stockSymbol}&apikey=${apiKey}&outputsize=compact`;
+        const apiUrl = `https://brapi.dev/api/quote/${stockSymbol}?range=3mo&interval=1d&token=${apiKey}`;
 
         try {
             const response = await fetch(apiUrl);
             const data = await response.json();
 
-            if (data['Error Message']) {
-                alert('Erro: Símbolo da ação não encontrado ou inválido.');
+            if (data.error) {
+                alert(`Erro: ${data.message || 'Símbolo não encontrado.'}`);
                 return;
-            }
-            
-            if (data['Note']) {
-                 alert('A API da Alpha Vantage tem um limite de 25 requisições por dia. Tente novamente mais tarde.');
-                 return;
             }
 
-            const timeSeries = data['Time Series (Daily)'];
-            if (!timeSeries) {
-                alert('Não foi possível obter os dados para este símbolo.');
+            const result = data.results?.[0];
+            const historical = result?.historicalDataPrice;
+
+            if (!historical || historical.length === 0) {
+                alert('Não foi possível obter os dados históricos para este símbolo.');
                 return;
             }
-            
-            const dates = Object.keys(timeSeries).slice(0, 100).reverse();
-            const closingPrices = dates.map(date => parseFloat(timeSeries[date]['4. close']));
-            
+
+            const dates = historical.map(entry => {
+                const d = new Date(entry.date * 1000);
+                return d.toLocaleDateString('pt-BR');
+            });
+
+            const closingPrices = historical.map(entry => entry.close);
+
             renderChart(dates, closingPrices, stockSymbol);
 
         } catch (error) {
@@ -46,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Ocorreu um erro ao conectar com a API. Verifique sua conexão ou tente novamente mais tarde.');
         }
     };
-    
-    // Função para renderizar o gráfico
+
     const renderChart = (labels, data, symbol) => {
         const ctx = document.getElementById('stockChart').getContext('2d');
 
@@ -75,20 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 maintainAspectRatio: false,
                 scales: {
                     x: {
-                        title: {
-                            display: true,
-                            text: 'Data'
-                        }
+                        title: { display: true, text: 'Data' }
                     },
                     y: {
-                        title: {
-                            display: true,
-                            text: 'Preço (USD)'
-                        },
+                        title: { display: true, text: 'Preço (BRL)' },
                         ticks: {
-                            callback: function(value, index, values) {
-                                return '$' + value.toFixed(2);
-                            }
+                            callback: (value) => 'R$ ' + value.toFixed(2)
                         }
                     }
                 },
@@ -105,8 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchButton.addEventListener('click', fetchData);
 
     stockSymbolInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            fetchData();
-        }
+        if (event.key === 'Enter') fetchData();
     });
 });
