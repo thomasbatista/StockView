@@ -7,13 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchData = async () => {
         const stockSymbol = stockSymbolInput.value.trim().toUpperCase();
+        const range = document.getElementById('rangePicker').value;
 
         if (!stockSymbol) {
             alert('Por favor, digite um símbolo de ação.');
             return;
         }
 
-        const apiUrl = `https://brapi.dev/api/quote/${stockSymbol}?range=3mo&interval=1d&token=${apiKey}`;
+        const apiUrl = `https://brapi.dev/api/quote/${stockSymbol}?range=${range}&interval=1d&token=${apiKey}`;
 
         try {
             const response = await fetch(apiUrl);
