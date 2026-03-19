@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const closingPrices = historical.map(entry => entry.close);
 
+            renderStockInfo(result); 
             renderChart(dates, closingPrices, stockSymbol);
 
         } catch (error) {
@@ -92,6 +93,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+    };
+
+    const renderStockInfo = (result) => {
+        const stockInfo = document.getElementById('stockInfo');
+    
+        const price = result.regularMarketPrice?.toFixed(2);
+        const change = result.regularMarketChangePercent?.toFixed(2);
+        const open = result.regularMarketOpen?.toFixed(2);
+        const vol = result.regularMarketVolume?.toLocaleString('pt-BR');
+
+        document.getElementById('currentPrice').textContent = price ? `R$ ${price}` : '-';
+        document.getElementById('openPrice').textContent = open ? `R$ ${open}` : '-';
+        document.getElementById('volume').textContent = vol ?? '-';
+
+        const dayChangeEl = document.getElementById('dayChange');
+        if (change !== undefined) {
+            const isPositive = change >= 0;
+            dayChangeEl.textContent = `${isPositive ? '+' : ''}${change}%`;
+            dayChangeEl.className = `info-value ${isPositive ? 'positive' : 'negative'}`;
+        }
+
+        stockInfo.classList.remove('hidden');
     };
 
     searchButton.addEventListener('click', fetchData);

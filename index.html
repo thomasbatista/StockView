@@ -1,31 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StockView - Visualizador de Ações</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>StockView - Visualizador de Histórico de Ações</h1>
-        <div class="input-container">
-            <input type="text" id="stockSymbol" placeholder="Digite o símbolo da ação (ex: PETR4, VALE3)">
-            <select id="rangePicker">
-                <option value="1mo">1 mês</option>
-                <option value="3mo" selected>3 meses</option>
-                <option value="6mo">6 meses</option>
-                <option value="1y">1 ano</option>
-            </select>
-            <button id="searchButton">Buscar</button>
+      <h1>StockView - Visualizador de Histórico de Ações</h1>
+      <div class="input-container">
+        <input
+          type="text"
+          id="stockSymbol"
+          placeholder="Digite o símbolo da ação (ex: PETR4, VALE3)"
+        />
+        <select id="rangePicker">
+          <option value="1mo">1 mês</option>
+          <option value="3mo" selected>3 meses</option>
+          <option value="6mo">6 meses</option>
+          <option value="1y">1 ano</option>
+        </select>
+        <button id="searchButton">Buscar</button>
+      </div>
+      <div id="stockInfo" class="stock-info hidden">
+        <div class="info-card">
+          <span class="info-label">Preço Atual</span>
+          <span class="info-value" id="currentPrice">-</span>
         </div>
-        <div class="chart-container">
-            <canvas id="stockChart"></canvas>
+        <div class="info-card">
+          <span class="info-label">Variação do Dia</span>
+          <span class="info-value" id="dayChange">-</span>
         </div>
-        <p class="api-note">Dados fornecidos por Brapi.dev.</p>
+        <div class="info-card">
+          <span class="info-label">Abertura</span>
+          <span class="info-value" id="openPrice">-</span>
+        </div>
+        <div class="info-card">
+          <span class="info-label">Volume</span>
+          <span class="info-value" id="volume">-</span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="stockChart"></canvas>
+      </div>
+      <p class="api-note">Dados fornecidos por Brapi.dev.</p>
     </div>
 
     <script type="module" src="script.js"></script>
-</body>
+  </body>
 </html>
