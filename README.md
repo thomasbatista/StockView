@@ -1,5 +1,5 @@
 # StockView
-Um visualizador para consultar o histórico de ações brasileiras.
+Um visualizador para consultar o histórico de ações.
 
 ## ✨ Funcionalidades
 - Busca de ações brasileiras por símbolo (ex: PETR4, IVVB11, VALE3)
